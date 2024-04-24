@@ -6,6 +6,7 @@ const Index = () => {
   const [members, setMembers] = useState([]);
   const [newItem, setNewItem] = useState({ memberName: "", startDate: "", endDate: "", itemName: "", tag: "" });
   const [items, setItems] = useState([]);
+  const [tags, setTags] = useState([]);
   const toast = useToast();
 
   const handleInputChange = (e) => {
@@ -25,7 +26,10 @@ const Index = () => {
       return;
     }
     setItems([...items, newItem]);
-    setNewItem({ memberName: "", startDate: "", endDate: "" });
+    if (!tags.includes(newItem.tag)) {
+      setTags([...tags, newItem.tag]);
+    }
+    setNewItem({ memberName: "", startDate: "", endDate: "", itemName: "", tag: "" });
   };
 
   const deleteItem = (index) => {
@@ -55,9 +59,9 @@ const Index = () => {
         <FormControl>
           <FormLabel>Tag</FormLabel>
           <Select placeholder="Select or create tag" name="tag" value={newItem.tag} onChange={handleInputChange}>
-            {items.map((item, index) => (
-              <option key={index} value={item.tag}>
-                {item.tag}
+            {tags.map((tag, index) => (
+              <option key={index} value={tag}>
+                {tag}
               </option>
             ))}
           </Select>
